@@ -1,11 +1,11 @@
 // === Font === //
-$font-body: 'Roboto, HelveticaNeue, Helvetica Neue', sans-serif;
+$font-body: "Roboto, HelveticaNeue, Helvetica Neue", sans-serif;
 
 // === Font Weight === //
 $font-weight: (
   normal: 400,
   medium: 600,
-  bold: 700
+  bold: 700,
 );
 
 // == Breakpoints === //
@@ -16,7 +16,7 @@ $breakpoints: (
   wide-large: 992px,
   large: 1024px,
   large-largest: 1200px,
-  largest: 1280px
+  largest: 1280px,
 );
 
 // === Colors === //
@@ -41,7 +41,9 @@ $colors: (
   main-bg: #fff,
 
   bg-primary: #0d7a52,
-  green-light: #58c06f,
+  light-green: #58c06f,
+  dark-green: #3bacb6,
+  lighter-green: #95d1cc,
 );
 
 // === z-index === //
@@ -52,13 +54,13 @@ $zindexs: (
   modal-backdrop: 1040,
   modal: 1050,
   popover: 1060,
-  tooltip: 1070
+  tooltip: 1070,
 );
 
 // === Typography === //
 $font-size-base: 0.875rem !default; // 14px
 $font-size-lg: $font-size-base * 1.25 !default;
-$font-size-sm: $font-size-base * .875 !default;
+$font-size-sm: $font-size-base * 0.875 !default;
 
 $h-font-size: (
   h1: $font-size-base * 2.5,
@@ -66,7 +68,7 @@ $h-font-size: (
   h3: $font-size-base * 1.75,
   h4: $font-size-base * 1.5,
   h5: $font-size-base * 1.25,
-  h6: $font-size-base
+  h6: $font-size-base,
 );
 
 $height: (
@@ -74,7 +76,7 @@ $height: (
   header-top-height: 140px,
   header-shink-height: 70px,
   header-tablet-height: 70px,
-  header-mobie-height: 40px
+  header-mobie-height: 40px,
 );
 
 $box-shadow: #0003 4px 4px 4px;

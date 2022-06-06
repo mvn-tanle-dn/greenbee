@@ -43,7 +43,6 @@
   }
 }
 
-
 // === CONVERT Px To Rem === //
 // How to use: @include pxRem(font-size, 16);
 @function strip-units($number) {
@@ -58,8 +57,7 @@
   // Assume em:
   @if (unitless($value) or unit($value) == em) {
     @return 0em + $value;
-  }
-  @else {
+  } @else {
     @return 0em + strip-units($value) / 16;
   }
 }
@@ -74,7 +72,7 @@
   $rem-values: ();
 
   // Ensure $values is a list.
-  @if type-of($values) != 'list' {
+  @if type-of($values) != "list" {
     $values: join((), $values);
   }
 
@@ -95,32 +93,35 @@
   // Don't add media query if it's not needed:
   @if $px-values != $rem-values {
     // @media only all {
-      #{$property}: $rem-values;
+    #{$property}: $rem-values;
     // }
   }
 }
 
 // === BUILD SPACE (margin, padding) === //
 // How to use: <div class="ml-5 mr-5 mx-5 my-5 m-5"></div>
-$spacePositions: ('x', 'y', '*', 'top', 'left', 'right', 'bottom');
+$spacePositions: ("x", "y", "*", "top", "left", "right", "bottom");
 $spaceSizes: 10;
-$paddingOrmargin: (m: 'margin', p: 'padding');
+$paddingOrmargin: (
+  m: "margin",
+  p: "padding",
+);
 @mixin buildSpace($type) {
   $getType: map-get($paddingOrmargin, $type);
   @for $i from 0 to $spaceSizes {
     $size: $i * 5;
     @each $el in $spacePositions {
-      @if $el == 'x' {
+      @if $el == "x" {
         .#{$type}x-#{$size} {
           #{$getType}-left: #{f-pxRem($size)} !important;
           #{$getType}-right: #{f-pxRem($size)} !important;
         }
-      } @else if $el == 'y' {
+      } @else if $el == "y" {
         .#{$type}y-#{$size} {
           #{$getType}-top: #{f-pxRem($size)} !important;
           #{$getType}-bottom: #{f-pxRem($size)} !important;
         }
-      } @else if $el == '*' {
+      } @else if $el == "*" {
         .#{$type}-#{$size} {
           #{$getType}: #{f-pxRem($size)} !important;
         }
@@ -132,9 +133,8 @@ $paddingOrmargin: (m: 'margin', p: 'padding');
     }
   }
 }
-@include buildSpace('m'); // Margin
-@include buildSpace('p'); // Padding
-
+@include buildSpace("m"); // Margin
+@include buildSpace("p"); // Padding
 
 @mixin flex($align-item, $justify-content) {
   display: flex;
@@ -142,9 +142,30 @@ $paddingOrmargin: (m: 'margin', p: 'padding');
   justify-content: $justify-content;
 }
 
-@mixin  flexCol($align-item, $justify-content) {
+@mixin flexCol($align-item, $justify-content) {
   display: flex;
   flex-direction: column;
   align-items: $align-item;
   justify-content: $justify-content;
+}
+
+@mixin move-animation {
+  animation: move 4s infinite linear;
+  @keyframes move {
+    0% {
+      right: 0;
+    }
+    25% {
+      right: 12.5%;
+    }
+    50% {
+      right: 25%;
+    }
+    75% {
+      right: 37.5%;
+    }
+    100% {
+      right: 50%;
+    }
+  }
 }

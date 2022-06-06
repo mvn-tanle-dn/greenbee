@@ -334,7 +334,7 @@
           @include pxRem(line-height, 18);
           @include pxRem(right, -11);
           text-align: center;
-          background: map-get($colors, green-light);
+          background: map-get($colors, light-green);
           position: absolute;
           -webkit-border-radius: 100%;
           -moz-border-radius: 100%;

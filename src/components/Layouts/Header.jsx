@@ -82,9 +82,9 @@ function Header() {
     const classList = categoriList.current.classList.value;
     const index = classList.search("active");
     if (index !== -1) {
-      setActiveIconMenu("menu-icon active");
-    } else {
       setActiveIconMenu("menu-icon");
+    } else {
+      setActiveIconMenu("menu-icon active");
     }
   };
 
@@ -221,7 +221,10 @@ function Header() {
                   <span className="ml-30">Categories</span>
                 </div>
               </div>
-              <ul className="header-bottom-menu col-3" ref={categoriList}>
+              <ul
+                className="header-bottom-menu active col-3"
+                ref={categoriList}
+              >
                 {megamenu.map((item, index) => {
                   return (
                     <li
