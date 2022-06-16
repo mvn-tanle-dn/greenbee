@@ -1,15 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react";
+import PropTypes from "prop-types";
 
 function Helmet(props) {
-    document.title = 'Greenbee- ' + props.title;
-    return (
-      <div>{props.children}</div>
-    )
+  document.title = "Greenbee - " + props.title;
+  return <div>{props.children}</div>;
 }
 
 Helmet.propTypes = {
-    title: PropTypes.string.isRequired
-}
+  title: PropTypes.string.isRequired,
+};
 
-export default Helmet
+export default Helmet;

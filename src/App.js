@@ -1,4 +1,10 @@
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  BrowserRouter,
+  useNavigate,
+  Navigate,
+} from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -17,12 +23,24 @@ import Contact from "./pages/Contact";
 import Blog from "./pages/Blog";
 import About from "./pages/About";
 import Login from "./pages/Login/Login";
+import Cart from "./pages/Cart/Cart";
+import { useEffect } from "react";
+import { KEY_LOCAL_STORAGE } from "./utils/storage";
 
 function App() {
+  const navigate = useNavigate();
+  const access_token = localStorage.getItem(KEY_LOCAL_STORAGE.ACCESS_TOKEN);
+
+  useEffect(() => {
+    if (!access_token) {
+      navigate("/login");
+    }
+  }, [access_token, navigate]);
+
   return (
-    <BrowserRouter>
+    <>
       <div className="app">
-        {false && <Header />}
+        {access_token && <Header />}
         <div className="main">
           <Routes>
             <Route exact path="/" element={<Home />} />
@@ -32,11 +50,13 @@ function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>
       </div>
-      {false && <Footer />}
-    </BrowserRouter>
+      {access_token && <Footer />}
+    </>
   );
 }
 

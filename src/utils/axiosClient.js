@@ -1,16 +1,23 @@
 import axios from "axios";
 import queryString from "query-string";
 
+import { getLocalStorage, KEY_LOCAL_STORAGE } from "./storage";
+
 const axiosClient = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
-  headers: {
-    "content-type": "application/json",
-  },
-  paramsSerializer: (params) => queryString.stringify(params),
+  // paramsSerializer: (params) => queryString.stringify(params),
   timeout: 30000,
 });
 
-axiosClient.interceptors.request.use(async (config) => {
+axiosClient.interceptors.request.use((config) => {
+  config.headers["Content-Type"] = "application/json";
+
+  if (getLocalStorage(KEY_LOCAL_STORAGE.ACCESS_TOKEN)) {
+    config.headers["Authorization"] = `Bearer ${getLocalStorage(
+      KEY_LOCAL_STORAGE.ACCESS_TOKEN
+    )}`;
+  }
+
   return config;
 });
 

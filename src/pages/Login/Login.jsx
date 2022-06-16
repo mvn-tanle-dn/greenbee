@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Input, Col, Drawer, Row, Space } from "antd";
 
 // Assets
@@ -7,11 +7,13 @@ import LoginLogo from "../../assets/images/Login/login-logo-2.jpeg";
 import Sticker from "../../assets/images/Login/woman-shopping.png";
 
 // API
-import axios from "axios";
 import { login } from "../../api/auth";
+import { KEY_LOCAL_STORAGE } from "../../utils/storage";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [visible, setVisible] = useState(false);
+  const navigate = useNavigate();
 
   const showDrawer = () => {
     setVisible(true);
@@ -21,49 +23,23 @@ const Login = () => {
     setVisible(false);
   };
 
-  const onFinish = async (values) => {
-    const result = await axios.post(
-      `${process.env.REACT_APP_API_URL}/login`,
-      {
-        email: values.email,
-        password: values.password,
-      },
-      {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
+  const onFinish = (values) => {
+    login({ email: values.email, password: values.password }).then((res) => {
+      if (res.data.access_token) {
+        localStorage.setItem(
+          KEY_LOCAL_STORAGE.ACCESS_TOKEN,
+          res.data.access_token
+        );
+        navigate("/");
       }
-    );
-    console.log(result);
+    });
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
-  const onRegister = async (values) => {
-    console.log({
-      email: values.email,
-      first_name: values.first_name,
-      last_name: values.last_name,
-      password: values.password,
-      password_confirmation: values.password_confirmation,
-    });
-    const result = await axios.post(
-      `${process.env.REACT_APP_API_URL}/signup`,
-      {
-        email: values.email,
-        first_name: values.first_name,
-        last_name: values.last_name,
-        password: values.password,
-        password_confirmation: values.password_confirmation,
-      },
-      {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      }
-    );
-    console.log(result);
-  };
+  const onRegister = async (values) => {};
 
   return (
     <div className="login-page">
