@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
+// Api
+import { logout } from "../../api/auth/index";
+
+// Images
 import logo from "../../assets/images/logo1.png";
 import iconNav1 from "../../assets/images/icon-nav1.png";
 import iconNav2 from "../../assets/images/icon-nav2.png";
@@ -8,9 +12,15 @@ import iconNav3 from "../../assets/images/icon-nav3.png";
 import iconNav4 from "../../assets/images/icon-nav4.png";
 import iconNav5 from "../../assets/images/icon-nav5.png";
 
+// Icons
 import { FaSearch, FaAngleLeft } from "react-icons/fa";
 import { BiMenu, BiMenuAltLeft } from "react-icons/bi";
 import { IoClose } from "react-icons/io5";
+import { MdShoppingCart, MdLogout, MdAccountCircle } from "react-icons/md";
+
+// Styles
+import "./style.scss";
+import { message } from "antd";
 
 function Header() {
   const mainNav = [
@@ -70,6 +80,7 @@ function Header() {
 
   const [activeIconMenu, setActiveIconMenu] = useState("menu-icon");
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const activeNav = mainNav.findIndex((e) => e.path === pathname);
 
   const headerRef = useRef(null);
@@ -95,6 +106,18 @@ function Header() {
   const menuLeftTogle = () => {
     menuLeft.current.classList.toggle("active");
   };
+
+  const handleLogout = () => {
+    logout().then((res) => {
+      if (res) {
+        message.success(res.data.message);
+        localStorage.removeItem("access_token");
+        navigate("/login");
+      }
+    });
+  };
+
+  const getProfile = () => {};
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -186,19 +209,14 @@ function Header() {
                 })}
               </ul>
               <ul className="header-top-socials col-4">
-                <li className="header-icon header-top-socials-item  mr-10">
-                  <div className="header-icon-account"></div>
+                <li className="header-top-socials-icon">
+                  <MdShoppingCart />
                 </li>
-                <li className="header-top-socials-item header-cart">
-                  <div className="header-icon site-header-cart">
-                    <span className="header-icon-cart"></span>
-                    <span className="header-cart-count">
-                      <span>1</span>
-                    </span>
-                  </div>
-                  <div className="site-header-cart-title ml-20">
-                    <span className="header-cart-title">My Cart</span>
-                  </div>
+                <li className="header-top-socials-icon">
+                  <MdAccountCircle />
+                </li>
+                <li className="header-top-socials-icon" onClick={handleLogout}>
+                  <MdLogout />
                 </li>
               </ul>
             </nav>
@@ -262,11 +280,8 @@ function Header() {
                   </button>
                 </form>
               </div>
-              <div className="header-bottom-address">
+              {/* <div className="header-bottom-address">
                 <div className="header-bottom-address-box">
-                  <div className="header-bottom-address-title">
-                    Call Us Now :
-                  </div>
                   <ul className="header-bottom-address-list">
                     <li className="header-bottom-address-item">
                       <h3 className="header-bottom-address-item-name">
@@ -301,7 +316,7 @@ function Header() {
                     084-2525-6868
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

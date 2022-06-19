@@ -1,10 +1,4 @@
-import {
-  Routes,
-  Route,
-  BrowserRouter,
-  useNavigate,
-  Navigate,
-} from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -12,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "./assets/scss/styles.scss";
 
 // Components
-import Header from "./components/Layouts/Header";
+import Header from "./components/Header/Header";
 import Footer from "./components/Layouts/Footer";
 
 // Pages

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Col, Drawer, Row, Space } from "antd";
+import { Form, Input, Col, Drawer, Row, Space, message } from "antd";
 
 // Assets
 import "./style.scss";
@@ -7,13 +7,15 @@ import LoginLogo from "../../assets/images/Login/login-logo-2.jpeg";
 import Sticker from "../../assets/images/Login/woman-shopping.png";
 
 // API
-import { login } from "../../api/auth";
+import { login, signup } from "../../api/auth";
 import { KEY_LOCAL_STORAGE } from "../../utils/storage";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
+
+  const access_token = localStorage.getItem(KEY_LOCAL_STORAGE.ACCESS_TOKEN);
 
   const showDrawer = () => {
     setVisible(true);
@@ -24,6 +26,7 @@ const Login = () => {
   };
 
   const onFinish = (values) => {
+    console.log(process.env);
     login({ email: values.email, password: values.password }).then((res) => {
       if (res.data.access_token) {
         localStorage.setItem(
@@ -39,7 +42,26 @@ const Login = () => {
     console.log("Failed:", errorInfo);
   };
 
-  const onRegister = async (values) => {};
+  const onSignup = (values) => {
+    signup({ ...values })
+      .then((res) => {
+        if (res.status === 200) {
+          message.success("Register Success!");
+          setVisible(false);
+          return;
+        }
+      })
+      .catch((err) => {
+        message.error(err.response.data.errors.email[0]);
+        return;
+      });
+  };
+
+  useEffect(() => {
+    if (access_token) {
+      navigate("/");
+    }
+  }, [access_token, navigate]);
 
   return (
     <div className="login-page">
@@ -123,7 +145,7 @@ const Login = () => {
           name="form-register"
           layout="vertical"
           hideRequiredMark
-          onFinish={onRegister}
+          onFinish={onSignup}
         >
           <Row gutter={16}>
             <Col span={12}>
