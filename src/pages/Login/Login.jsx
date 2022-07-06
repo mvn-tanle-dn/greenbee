@@ -26,16 +26,24 @@ const Login = () => {
   };
 
   const onFinish = (values) => {
-    console.log(process.env);
-    login({ email: values.email, password: values.password }).then((res) => {
-      if (res.data.access_token) {
-        localStorage.setItem(
-          KEY_LOCAL_STORAGE.ACCESS_TOKEN,
-          res.data.access_token
-        );
-        navigate("/");
-      }
-    });
+    login({ email: values.email, password: values.password })
+      .then((res) => {
+        if (res.data.access_token) {
+          if (res.data.role === "1") {
+            localStorage.setItem(
+              KEY_LOCAL_STORAGE.ACCESS_TOKEN,
+              res.data.access_token
+            );
+            navigate("/");
+            message.success("You are successfully logged in");
+          } else {
+            message.error("This is the account of the admin role");
+          }
+        }
+      })
+      .catch((err) => {
+        message.error(err.response.data.error);
+      });
   };
 
   const onFinishFailed = (errorInfo) => {

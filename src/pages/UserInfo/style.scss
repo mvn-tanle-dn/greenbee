@@ -1,0 +1,62 @@
+@import "../../assets/scss/base/variables";
+@import "../../assets/scss/base/mixins";
+
+.page-user-info {
+  padding-top: 20px;
+  .page-user-info-header {
+    display: flex;
+    align-items: center;
+    position: relative;
+    .user-info-back-btn {
+      background-color: #e5e5e5;
+      height: 50px;
+      width: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-bottom: 0;
+      svg {
+        // padding: 20px;
+        // background-color: red;
+        // color: black;
+        font-size: 27px;
+      }
+    }
+    h3 {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-bottom: 0;
+      color: map-get($colors, bg-primary);
+    }
+  }
+  .user-info-content {
+    margin-top: 30px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    .user-info-title {
+      display: flex;
+      align-items: center;
+      // justify-content: center;
+      margin-left: 50px;
+      gap: 20px;
+      .user-info-avt {
+        height: 80px;
+        width: 80px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+      .user-info-name {
+        text-transform: capitalize;
+      }
+    }
+    .user-info-main {
+      margin-top: 30px;
+    }
+    .user-info-update-btn {
+      background-color: map-get($colors, bg-primary);
+    }
+  }
+}

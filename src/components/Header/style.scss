@@ -298,15 +298,14 @@
         display: none;
       }
 
-      &-item {
-        text-align: center;
+      .material-icon {
+        svg {
+          font-size: 17px;
+        }
       }
 
-      &-icon {
-        cursor: pointer;
-        svg {
-          font-size: 22px;
-        }
+      &-item {
+        text-align: center;
       }
 
       .header-icon {

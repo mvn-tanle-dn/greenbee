@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Api
 import { logout } from "../../api/auth/index";
@@ -13,10 +14,15 @@ import iconNav4 from "../../assets/images/icon-nav4.png";
 import iconNav5 from "../../assets/images/icon-nav5.png";
 
 // Icons
+import {
+  faArrowRightFromBracket,
+  faUser,
+  faHeart,
+  faShoppingCart,
+} from "@fortawesome/free-solid-svg-icons";
 import { FaSearch, FaAngleLeft } from "react-icons/fa";
 import { BiMenu, BiMenuAltLeft } from "react-icons/bi";
 import { IoClose } from "react-icons/io5";
-import { MdShoppingCart, MdLogout, MdAccountCircle } from "react-icons/md";
 
 // Styles
 import "./style.scss";
@@ -28,10 +34,10 @@ function Header() {
       display: "Home",
       path: "/",
     },
-    {
-      display: "Product",
-      path: "/product/:id",
-    },
+    // {
+    //   display: "Product",
+    //   path: "/product/:id",
+    // },
     {
       display: "Categories",
       path: "/categories",
@@ -117,7 +123,9 @@ function Header() {
     });
   };
 
-  const getProfile = () => {};
+  const handleRedirectUserInfo = () => {
+    navigate("/user-info");
+  };
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -209,14 +217,23 @@ function Header() {
                 })}
               </ul>
               <ul className="header-top-socials col-4">
-                <li className="header-top-socials-icon">
-                  <MdShoppingCart />
+                <li className="material-icon">
+                  <FontAwesomeIcon icon={faShoppingCart} />
                 </li>
-                <li className="header-top-socials-icon">
-                  <MdAccountCircle />
+                <li className="material-icon">
+                  <FontAwesomeIcon
+                    icon={faHeart}
+                    onClick={() => {
+                      navigate("/wishlist");
+                      return null;
+                    }}
+                  />
                 </li>
-                <li className="header-top-socials-icon" onClick={handleLogout}>
-                  <MdLogout />
+                <li className="material-icon" onClick={handleRedirectUserInfo}>
+                  <FontAwesomeIcon icon={faUser} />
+                </li>
+                <li className="material-icon" onClick={handleLogout}>
+                  <FontAwesomeIcon icon={faArrowRightFromBracket} />
                 </li>
               </ul>
             </nav>

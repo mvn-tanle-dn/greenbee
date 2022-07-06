@@ -1,4 +1,8 @@
-.section-products {
+@import "../../assets/scss/base/variables";
+@import "../../assets/scss/base/mixins";
+
+.section-nav-categories {
+  margin-bottom: 40px;
   .dropdown-sale {
     display: none;
   }
@@ -9,6 +13,9 @@
       justify-content: center;
       flex-wrap: wrap;
       position: relative;
+      .block-nav-item {
+        cursor: pointer;
+      }
 
       @include respond-below(medium) {
         .block-nav-item {

@@ -1,41 +1,89 @@
-import React from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import Slider from "react-slick";
 import {
   AiOutlineComment,
   AiOutlineUser,
   AiOutlineCalendar,
 } from "react-icons/ai";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHeart,
+  faCartArrowDown,
+  faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
 
 // Components
-import ProductItem from "../components/Modules/products/ProductItem";
-import Products from "../components/Modules/products/Products";
-import SectionTitle from "../components/Modules/products/SectionTitle";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Layouts/Footer";
+import NavCategories from "../../components/NavCategories";
+import SectionTitle from "../../components/SectionTitle";
+// import Products from "../../components/Modules/products/Products";
 import {
-  productsFlashDeal,
-  ourProducts,
   latestPost,
   manufactureImg,
-} from "../components/Modules/products/data";
+} from "../../components/Modules/products/data";
 
 // Assets
-import bfMain from "../assets/images/home/bf-main.png";
-import bestFood1 from "../assets/images/home/bf.png";
-import bestFood2 from "../assets/images/home/bf2.png";
-import bestFood3 from "../assets/images/home/bf3.png";
-import bestFood4 from "../assets/images/home/bf4.png";
-import policy1 from "../assets/images/home/policy1.webp";
-import policy2 from "../assets/images/home/policy2.png";
-import policy3 from "../assets/images/home/policy3.png";
-import shopify1 from "../assets/images/home/shopify.webp";
-import shopify2 from "../assets/images/home/shopify2.webp";
-import shopify3 from "../assets/images/home/shopify3.webp";
-import slide1 from "../assets/images/home/slide1.webp";
-import slide2 from "../assets/images/home/slide2.webp";
-import slide3 from "../assets/images/home/slide3.webp";
-import imgGallery from "../assets/images/home/img-gellary.webp";
+import bfMain from "../../assets/images/home/bf-main.png";
+import bestFood1 from "../../assets/images/home/bf.png";
+import bestFood2 from "../../assets/images/home/bf2.png";
+import bestFood3 from "../../assets/images/home/bf3.png";
+import bestFood4 from "../../assets/images/home/bf4.png";
+import policy1 from "../../assets/images/home/policy1.webp";
+import policy2 from "../../assets/images/home/policy2.png";
+import policy3 from "../../assets/images/home/policy3.png";
+import shopify1 from "../../assets/images/home/shopify.webp";
+import shopify2 from "../../assets/images/home/shopify2.webp";
+import shopify3 from "../../assets/images/home/shopify3.webp";
+import slide1 from "../../assets/images/home/slide1.webp";
+import slide2 from "../../assets/images/home/slide2.webp";
+import slide3 from "../../assets/images/home/slide3.webp";
+import imgGallery from "../../assets/images/home/img-gellary.webp";
+
+// Style
+import "./style.scss";
+import Product from "../../components/Product";
 
 function Home() {
+  const dispatch = useDispatch();
+
+  const product = useSelector((state) => state.product);
+
+  const getProfile = useCallback(
+    () => dispatch.profile.getProfile(),
+    [dispatch]
+  );
+
+  const getCategories = useCallback(
+    () => dispatch.category.getCategories(),
+    [dispatch]
+  );
+
+  const getProducts = useCallback(
+    () => dispatch.product.getProducts(),
+    [dispatch]
+  );
+
+  useLayoutEffect(() => {
+    getProducts();
+  }, [getProducts]);
+
+  useLayoutEffect(() => {
+    getProfile();
+  }, [getProfile]);
+
+  useLayoutEffect(() => {
+    getCategories();
+  }, [getCategories]);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -73,6 +121,8 @@ function Home() {
 
   return (
     <div className="page-home">
+      {/* <Header /> */}
+
       <section className="section-slide-show mt-30">
         <div className="container">
           <ul className="section-slide-show-list">
@@ -242,9 +292,27 @@ function Home() {
         </div>
       </section>
 
-      <Products />
+      <section className="section-discover-products">
+        <SectionTitle
+          title="Discover Our Products
+"
+          subTitle="At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium.
+"
+        />
+        <NavCategories />
+        <div className="container">
+          <div className="discover-products-wrapper">
+            <ul className="discover-products">
+              {product &&
+                product.map((_product) => <Product product={_product} />)}
+            </ul>
+          </div>
+        </div>
+      </section>
 
-      <div className="distance">
+      {/* <Products products={product} /> */}
+
+      {/* <div className="distance">
         <section className="section-flash-deal section-padding">
           <div className="container">
             <SectionTitle title={flashDealTitle} />
@@ -268,9 +336,9 @@ function Home() {
             </div>
           </div>
         </section>
-      </div>
+      </div> */}
 
-      <section className="section-collection section-padding">
+      {/* <section className="section-collection section-padding">
         <div className="container">
           <ul className="section-collection-tabs mb-30">
             <li className="section-collection-item mr-30">
@@ -308,7 +376,7 @@ function Home() {
             </Slider>
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section className="section-banner">
         <div className="container">
@@ -379,6 +447,8 @@ function Home() {
           </ul>
         </div>
       </section>
+
+      {/* <Footer /> */}
     </div>
   );
 }

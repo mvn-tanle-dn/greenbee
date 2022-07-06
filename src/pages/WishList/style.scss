@@ -1,0 +1,16 @@
+.page-wishlist {
+  .wishlist-wrapper {
+    .wishlist-products {
+      .wishlist-product {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .wishlist-product-img {
+          width: 168px;
+          height: 168px;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}
