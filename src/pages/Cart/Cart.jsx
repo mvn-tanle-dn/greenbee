@@ -3,41 +3,11 @@ import { Col, Row, Table, Card, Progress } from "antd";
 
 import { useSelector } from "react-redux";
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Style
 import "./style.scss";
 import TextArea from "antd/lib/input/TextArea";
-
-const columns = [
-  {
-    title: "PRODUCT",
-    dataIndex: "product_name",
-    key: "product_name",
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: "PRICE",
-    dataIndex: "sell_price",
-    key: "sell_price",
-  },
-  {
-    title: "QTY",
-    dataIndex: "qty",
-    key: "qty",
-    render: (_, record) => (
-      <input min={0} type="number" defaultValue={record.qty} />
-    ),
-  },
-  {
-    title: "TOTAL",
-    key: "",
-    dataIndex: "",
-    render: (_, record) => {
-      return parseInt(record.qty) * parseInt(record.sell_price);
-    },
-  },
-];
 
 const FREE_SHIP_PRICE = 300000;
 
@@ -45,6 +15,82 @@ function Cart() {
   const navigate = useNavigate();
   const { quantity, products } = useSelector((state) => state.cart);
   const [totalPrice, setTotalPrice] = useState(0);
+
+  const handleInputQty = (event, record) => {
+    record.qty = event.target.value;
+    setColumns([
+      {
+        title: "PRODUCT",
+        dataIndex: "product_name",
+        key: "product_name",
+        render: (text) => <a>{text}</a>,
+      },
+      {
+        title: "PRICE",
+        dataIndex: "sell_price",
+        key: "sell_price",
+      },
+      {
+        title: "QTY",
+        dataIndex: "qty",
+        key: "qty",
+        render: (_, record) => {
+          return (
+            <input
+              defaultValue={record.qty}
+              onInput={(event) => handleInputQty(event, record)}
+            />
+          );
+        },
+      },
+      {
+        title: "TOTAL",
+        key: "",
+        dataIndex: "",
+        render: (_, record) => {
+          console.log(record);
+          return parseInt(record.qty) * parseInt(record.sell_price);
+        },
+      },
+    ]);
+  };
+
+  const [columns, setColumns] = useState([
+    {
+      title: "PRODUCT",
+      dataIndex: "product_name",
+      key: "product_name",
+      render: (productName, record) => (
+        <Link to={`/products/${record.id}`}>{productName}</Link>
+      ),
+    },
+    {
+      title: "PRICE",
+      dataIndex: "sell_price",
+      key: "sell_price",
+    },
+    {
+      title: "QTY",
+      dataIndex: "qty",
+      key: "qty",
+      render: (_, record) => {
+        return (
+          <input
+            defaultValue={record.qty}
+            onInput={(event) => handleInputQty(event, record)}
+          />
+        );
+      },
+    },
+    {
+      title: "TOTAL",
+      key: "",
+      dataIndex: "",
+      render: (_, record) => {
+        return parseInt(record.qty) * parseInt(record.sell_price);
+      },
+    },
+  ]);
 
   useEffect(() => {
     setTotalPrice(
@@ -57,7 +103,9 @@ function Cart() {
   return (
     <div className="page-cart">
       <div className="container">
-        <a href="/purchase-history">Purchase History</a>
+        <Link to="/purchase-history" className="page-cart-history">
+          Purchase History
+        </Link>
         <div className="page-cart-wrapper">
           <h4 className="page-cart-title">SHOPPING CART</h4>
           <div className="page-cart-products">
@@ -90,7 +138,7 @@ function Cart() {
                           FREE_SHIP_PRICE - totalPrice
                         } FOR FREE SHIPPING`
                       : `CONGRATULATIONS! YOU'VE GOT FREE SHIPPING!
-`}
+  `}
                     <br />
                     <span>
                       Free shipping for any orders above ${FREE_SHIP_PRICE}
@@ -103,14 +151,11 @@ function Cart() {
             </Row>
             <Row>
               <Col span={6}>
-                <button
-                  className="cart-checkout-btn"
-                  onClick={() => {
-                    navigate("/payment");
-                  }}
-                >
-                  PROCEED TO CHECKOUT
-                </button>
+                <Link to="/payment">
+                  <button className="cart-checkout-btn">
+                    PROCEED TO CHECKOUT
+                  </button>
+                </Link>
               </Col>
               <Col span={6} offset={2}>
                 <button className="cart-shopping-btn">CONTINUE SHOPPING</button>

@@ -110,27 +110,32 @@ const Payment = () => {
           <Col span={12} offset={4}>
             <ul className="payment-products">
               {products &&
-                products.map((product) => (
-                  <li className="payment-product">
-                    <div className="payment-product-left">
-                      <div className="payment-product-img-wrapper">
-                        <img
-                          src={`${process.env.REACT_APP_URL}${product.image1}`}
-                          alt={`product-${product.id}`}
-                        />
-                        <span className="payment-product-qty">
-                          {product.qty}
-                        </span>
-                      </div>
-                      <span>{product.product_name}</span>
-                    </div>
-                    <div className="payment-product-right">
-                      <span>
-                        {parseInt(product.sell_price) * parseInt(product.qty)}
-                      </span>
-                    </div>
-                  </li>
-                ))}
+                products.map((product) => {
+                  if (product.qty > 0) {
+                    return (
+                      <li className="payment-product">
+                        <div className="payment-product-left">
+                          <div className="payment-product-img-wrapper">
+                            <img
+                              src={`${process.env.REACT_APP_URL}${product.image1}`}
+                              alt={`product-${product.id}`}
+                            />
+                            <span className="payment-product-qty">
+                              {product.qty}
+                            </span>
+                          </div>
+                          <span>{product.product_name}</span>
+                        </div>
+                        <div className="payment-product-right">
+                          <span>
+                            {parseInt(product.sell_price) *
+                              parseInt(product.qty)}
+                          </span>
+                        </div>
+                      </li>
+                    );
+                  }
+                })}
             </ul>
             <Divider />
             <ul className="payment-total">

@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  useLayoutEffect,
+} from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -32,6 +38,12 @@ import { useDispatch, useSelector } from "react-redux";
 function Header() {
   const dispatch = useDispatch();
   const { quantity } = useSelector((state) => state.cart);
+  const category = useSelector((state) => state.category);
+
+  const getCategories = useCallback(
+    () => dispatch.category.getCategories(),
+    [dispatch]
+  );
 
   const mainNav = [
     {
@@ -47,12 +59,8 @@ function Header() {
       path: "/categories",
     },
     {
-      display: "About Us",
-      path: "/about",
-    },
-    {
-      display: "Contact Us",
-      path: "/contact",
+      display: "Purchase History",
+      path: "/purchase-history",
     },
     {
       display: "Blog",
@@ -128,9 +136,11 @@ function Header() {
     });
   };
 
-  const handleRedirectUserInfo = () => {
-    navigate("/user-info");
-  };
+  useLayoutEffect(() => {
+    if (!category) {
+      getCategories();
+    }
+  }, [category, getCategories]);
 
   useEffect(() => {
     window.addEventListener("scroll", () => {
@@ -163,22 +173,22 @@ function Header() {
                   <FaAngleLeft onClick={menuLeftCategoriListToggle} />
                 </i>
 
-                {megamenu.map((item, index) => {
+                {category.map((item, index) => {
                   return (
-                    <li
-                      className="menuLeft-menu-item"
-                      key={`menuLeft-menu-${index}`}
-                    >
-                      <Link to="#">
+                    <Link to={`/categories/${item.id}`}>
+                      <li
+                        className="menuLeft-menu-item"
+                        key={`menuLeft-menu-${index}`}
+                      >
                         <div className="icon-nav">
-                          <img src={item.icon} alt={item.title} />
+                          <img src={item.icon} alt={item.name} />
                         </div>
                         <div className="group-title">
-                          {item.title}
-                          <p className="sub-title-nav">{item.subTitle}</p>
+                          {item.name}
+                          <p className="sub-title-nav">{item.description}</p>
                         </div>
-                      </Link>
-                    </li>
+                      </li>
+                    </Link>
                   );
                 })}
               </ul>
@@ -222,33 +232,26 @@ function Header() {
                 })}
               </ul>
               <ul className="header-top-socials col-4">
-                <li className="material-icon">
-                  <FontAwesomeIcon
-                    icon={faShoppingCart}
-                    onClick={() => {
-                      navigate("/cart");
-                      return null;
-                    }}
-                  />
-
-                  {quantity > 0 && (
-                    <span className="header-top-socials-quantity">
-                      {quantity}
-                    </span>
-                  )}
-                </li>
-                <li className="material-icon">
-                  <FontAwesomeIcon
-                    icon={faHeart}
-                    onClick={() => {
-                      navigate("/wishlist");
-                      return null;
-                    }}
-                  />
-                </li>
-                <li className="material-icon" onClick={handleRedirectUserInfo}>
-                  <FontAwesomeIcon icon={faUser} />
-                </li>
+                <Link to="/cart">
+                  <li className="material-icon">
+                    <FontAwesomeIcon icon={faShoppingCart} />
+                    {quantity > 0 && (
+                      <span className="header-top-socials-quantity">
+                        {quantity}
+                      </span>
+                    )}
+                  </li>
+                </Link>
+                <Link to="/wishlist">
+                  <li className="material-icon">
+                    <FontAwesomeIcon icon={faHeart} />
+                  </li>
+                </Link>
+                <Link to="/user-info">
+                  <li className="material-icon">
+                    <FontAwesomeIcon icon={faUser} />
+                  </li>
+                </Link>
                 <li className="material-icon" onClick={handleLogout}>
                   <FontAwesomeIcon icon={faArrowRightFromBracket} />
                 </li>
@@ -274,22 +277,22 @@ function Header() {
                 </div>
               </div>
               <ul className="header-bottom-menu col-3" ref={categoriList}>
-                {megamenu.map((item, index) => {
+                {category.map((item, index) => {
                   return (
-                    <li
-                      className="header-bottom-menu-item"
-                      key={`mega-menu-${index}`}
-                    >
-                      <Link to="#">
+                    <Link to={`/categories/${item.id}`}>
+                      <li
+                        className="header-bottom-menu-item"
+                        key={`mega-menu-${index}`}
+                      >
                         <div className="icon-nav">
-                          <img src={item.icon} alt={item.title} />
+                          <img src={item.icon} alt={item.name} />
                         </div>
                         <div className="group-title">
-                          {item.title}
-                          <p className="sub-title-nav">{item.subTitle}</p>
+                          {item.name}
+                          <p className="sub-title-nav">{item.description}</p>
                         </div>
-                      </Link>
-                    </li>
+                      </li>
+                    </Link>
                   );
                 })}
               </ul>

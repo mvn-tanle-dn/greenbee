@@ -16,4 +16,5 @@ export const END_POINT = {
   WISHLIST: "wishlist",
   ORDERS: "orders",
   ORDERSVNPAY: "vnpay_payment",
+  FEEDBACK: "products/comments",
 };

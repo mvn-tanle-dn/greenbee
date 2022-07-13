@@ -1,5 +1,5 @@
 import { Divider } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { addWishList, getWishList } from "../../api/user";
 
@@ -12,29 +12,32 @@ export default function WishList() {
 
   const filterProductByWishlist = (products, wishlistProducts) => {
     return products?.filter((product) => {
-      return wishlistProducts?.some((wishlistProduct) => {
+      return wishlistProducts?.find((wishlistProduct) => {
         return wishlistProduct.product_id === product.id;
       });
     });
   };
 
   const removeWishlistProduct = (productId) => {
+    setWishlistProducts(
+      wishlistProducts.filter((product) => product.id !== productId)
+    );
     addWishList(productId).then((res) => {
-      if (res.data.success) {
-        setWishlistProducts(
-          wishlistProducts.filter((product) => product.product_id !== productId)
-        );
-      }
+      console.log(res);
     });
   };
 
   useEffect(() => {
     getWishList().then((res) => {
       if (res.data.success) {
-        setWishlistProducts(res.data.data);
+        setWishlistProducts(filterProductByWishlist(product, res.data.data));
       }
     });
-  }, []);
+  }, [product]);
+
+  useEffect(() => {
+    console.log(wishlistProducts);
+  }, [wishlistProducts]);
 
   return (
     <div className="page-wishlist">
@@ -45,35 +48,39 @@ export default function WishList() {
           <Divider />
           <ul className="wishlist-products">
             {wishlistProducts &&
-              wishlistProducts.map((product) => (
-                <>
-                  <Divider />
-                  <li className="wishlist-product">
-                    <div className="wishlist-product-main">
-                      <img
-                        className="wishlist-product-img"
-                        src={`${process.env.REACT_APP_URL}${product.image1}`}
-                        alt={`wishlist-product-${product.product_name}`}
-                      />
-                      <span>{product.product_id}</span>
-                    </div>
-                    <span className="wishlist-product-price">
-                      {product.sell_price}
-                    </span>
-                    <div className="wishlist-product-action">
-                      <button
-                        className="btn"
-                        onClick={() => {
-                          removeWishlistProduct(product.product_id);
-                        }}
-                      >
-                        Remove
-                      </button>
-                      <button className="btn">Add To Cart</button>
-                    </div>
-                  </li>
-                </>
-              ))}
+              wishlistProducts.map((_record) => {
+                return (
+                  <>
+                    <Divider />
+                    <li className="wishlist-product">
+                      <div className="wishlist-product-main">
+                        <img
+                          className="wishlist-product-img"
+                          src={`${process.env.REACT_APP_URL}${_record.image1}`}
+                          alt={`wishlist-product-${_record.product_name}`}
+                        />
+                        <span>{_record.id}</span>
+                      </div>
+                      <span className="wishlist-product-price">
+                        {product.sell_price}
+                      </span>
+                      <div className="wishlist-product-action">
+                        <button
+                          className="btn"
+                          onClick={() => {
+                            removeWishlistProduct(_record.id);
+                          }}
+                        >
+                          Remove
+                        </button>
+                        <button className="btn">Add To Cart</button>
+                      </div>
+                    </li>
+                  </>
+                );
+              })}
+
+            {wishlistProducts.length < 1 && "Emty Product"}
           </ul>
         </div>
       </div>

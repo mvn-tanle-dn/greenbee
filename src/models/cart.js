@@ -17,18 +17,18 @@ export const cart = {
       state.products = [];
     },
     addToCart(state, payload) {
-      let index = state.products?.findIndex(
+      console.log(payload);
+      const product = state.products?.find(
         (product) => product.id === payload.id
       );
-      if (index === -1) {
-        return {
-          ...state,
-          products: [...state.products, { ...payload, qty: 1 }],
-        };
-      } else {
-        state.products[index].qty++;
+      if (product) {
+        product.qty += payload.qty;
         return state;
       }
+      return {
+        ...state,
+        products: [...state.products, { ...payload, qty: 1 }],
+      };
     },
   },
 };

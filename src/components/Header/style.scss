@@ -83,6 +83,7 @@
 
             &.active {
               transform: translateX(-30px);
+              padding: 50px;
             }
             &-close {
               display: block;
@@ -592,6 +593,8 @@
       z-index: 99;
       cursor: pointer;
       width: 270px;
+      height: 550px;
+      overflow: auto;
       background-color: #fff;
       -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
       -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
@@ -609,13 +612,14 @@
         opacity: 1;
         transition: 1s ease;
         visibility: visible;
+        display: block;
       }
 
       &-item {
         display: block;
         margin: 0;
         max-height: initial;
-        padding: 0;
+        padding: 30px;
         border-bottom: 1px solid rgb(237, 233, 233);
 
         &:last-child {

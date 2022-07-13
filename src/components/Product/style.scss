@@ -47,7 +47,8 @@
     display: flex;
     gap: 30px;
     .modal-product-img {
-      max-width: 40%;
+      width: 40%;
+      height: 400px;
       object-fit: cover;
     }
     .modal-product-content {

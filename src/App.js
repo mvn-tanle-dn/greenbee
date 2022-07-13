@@ -22,6 +22,8 @@ import Header from "./components/Header/Header";
 import { useDispatch, useSelector } from "react-redux";
 import Payment from "./pages/Payment";
 import ProductDetail from "./pages/ProductDetail";
+import PurchaseHistory from "./pages/PurchaseHistory";
+import CategoryDetail from "./pages/CategoryDetail";
 
 function App() {
   const navigate = useNavigate();
@@ -54,13 +56,14 @@ function App() {
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route path="/categories" element={<Categories />} />
+            <Route path="/categories/:id" element={<CategoryDetail />} />
             <Route path="/products/:id" element={<ProductDetail />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/purchase-history" element={<Cart />} />
+            <Route path="/purchase-history" element={<PurchaseHistory />} />
             <Route path="/wishlist" element={<WishList />} />
             <Route path="/user-info" element={<UserInfo />} />
             <Route path="/payment" element={<Payment />} />
