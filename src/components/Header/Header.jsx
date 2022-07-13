@@ -50,10 +50,6 @@ function Header() {
       display: "Home",
       path: "/",
     },
-    // {
-    //   display: "Product",
-    //   path: "/product/:id",
-    // },
     {
       display: "Categories",
       path: "/categories",

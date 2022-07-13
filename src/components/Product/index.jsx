@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Col, InputNumber, Modal, Row, notification } from "antd";
+import { Col, Modal, Row, notification } from "antd";
 
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
