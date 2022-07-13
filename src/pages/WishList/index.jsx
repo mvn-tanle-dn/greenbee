@@ -1,5 +1,5 @@
 import { Divider } from "antd";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { addWishList, getWishList } from "../../api/user";
 
@@ -23,7 +23,7 @@ export default function WishList() {
       wishlistProducts.filter((product) => product.id !== productId)
     );
     addWishList(productId).then((res) => {
-      console.log(res);
+      // console.log(res);
     });
   };
 
@@ -34,10 +34,6 @@ export default function WishList() {
       }
     });
   }, [product]);
-
-  useEffect(() => {
-    console.log(wishlistProducts);
-  }, [wishlistProducts]);
 
   return (
     <div className="page-wishlist">

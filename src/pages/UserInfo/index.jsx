@@ -1,11 +1,6 @@
-import React, {
-  useEffect,
-  useState,
-  useLayoutEffect,
-  useCallback,
-} from "react";
+import React, { useEffect, useLayoutEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Cascader, DatePicker, Form, Input, Radio } from "antd";
+import { Form, Input, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 
 // Images
@@ -16,6 +11,7 @@ import { MdKeyboardBackspace } from "react-icons/md";
 
 // Styles
 import "./style.scss";
+import { updateProfile } from "../../api/user";
 
 export default function UserInfo() {
   const dispatch = useDispatch();
@@ -29,8 +25,17 @@ export default function UserInfo() {
     [dispatch]
   );
 
-  const updateProfile = (values) => {
-    console.log(form.getFieldsValue());
+  const handleUpdateProfile = () => {
+    updateProfile(form.getFieldsValue()).then((res) => {
+      if (res.status === 200) {
+        message.success("Your profile has been successfully.");
+        form.setFieldsValue({
+          current_password: null,
+          password: null,
+          new_password_confirmation: null,
+        });
+      }
+    });
   };
 
   useEffect(() => {
@@ -106,7 +111,7 @@ export default function UserInfo() {
                   <Input.Password />
                 </Form.Item>
                 <Form.Item
-                  name="new_password"
+                  name="password"
                   label="New Password"
                   rules={[
                     {
@@ -120,7 +125,7 @@ export default function UserInfo() {
                 <Form.Item
                   name="new_password_confirmation"
                   label="Confirm Password"
-                  dependencies={["new_password"]}
+                  dependencies={["password"]}
                   hasFeedback
                   rules={[
                     {
@@ -129,7 +134,7 @@ export default function UserInfo() {
                     },
                     ({ getFieldValue }) => ({
                       validator(_, value) {
-                        if (!value || getFieldValue("new_password") === value) {
+                        if (!value || getFieldValue("password") === value) {
                           return Promise.resolve();
                         }
 
@@ -147,7 +152,7 @@ export default function UserInfo() {
                 <Form.Item wrapperCol={{ offset: 4, span: 14 }}>
                   <button
                     className="btn btn-primary user-info-update-btn"
-                    onClick={() => updateProfile()}
+                    onClick={() => handleUpdateProfile()}
                   >
                     Update
                   </button>

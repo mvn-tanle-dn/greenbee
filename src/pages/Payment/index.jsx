@@ -14,7 +14,7 @@ const Payment = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { quantity, products } = useSelector((state) => state.cart);
+  const { products } = useSelector((state) => state.cart);
   const [totalPrice, setTotalPrice] = useState(0);
 
   const onSubmitWithCash = () => {

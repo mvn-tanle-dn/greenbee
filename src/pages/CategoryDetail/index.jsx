@@ -5,7 +5,7 @@ import { Divider } from "antd";
 
 // Style
 import "./style.scss";
-import { getProductsByCategory } from "../../api/product";
+import { getProducts, getProductsByCategory } from "../../api/product";
 import Product from "../../components/Product";
 
 function CategoryDetail() {
@@ -18,9 +18,15 @@ function CategoryDetail() {
 
   useEffect(() => {
     setCurrentCategory(category.find((record) => record.id === parseInt(id)));
-    getProductsByCategory(parseInt(id)).then((res) => {
-      setProducts(res.data.data);
-    });
+    if (id) {
+      getProductsByCategory(parseInt(id)).then((res) => {
+        setProducts(res.data.data);
+      });
+    } else {
+      getProducts().then((res) => {
+        setProducts(res.data.data);
+      });
+    }
   }, [id, category]);
 
   return (
@@ -28,7 +34,9 @@ function CategoryDetail() {
       <div className="container">
         <div className="category-wrapper">
           <Divider />
-          <h4>{currentCategory.category_name}</h4>
+          <h4>
+            {currentCategory ? currentCategory.category_name : "All Products"}
+          </h4>
           <Divider />
           <ul className="category-products">
             {products &&

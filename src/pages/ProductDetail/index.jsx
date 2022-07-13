@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Row, Col, Tabs, notification, Avatar, List, Divider } from "antd";
+import { Row, Col, Tabs, notification, Divider } from "antd";
 
 // Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,9 +19,6 @@ const { TabPane } = Tabs;
 function ProductDetail() {
   const { id } = useParams();
   const dispatch = useDispatch();
-
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
 
   const product = useSelector((state) => state.product);
   const [currentProduct, setCurrentProduct] = useState({});
@@ -43,10 +40,6 @@ function ProductDetail() {
       bottom: 50,
     });
   };
-
-  //  1  accept
-  //  2 denied
-  // 2
 
   const addToCart = (product) => {
     dispatch.cart.increment();

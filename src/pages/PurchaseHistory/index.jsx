@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import "./style.scss";
 import { Divider, Avatar, List, Tag, Modal } from "antd";
 
@@ -15,7 +14,6 @@ export default function PurchaseHistory() {
 
   const showModal = (item) => {
     setOrdersDetail(filterProductById(product, item));
-    console.log(filterProductById(product, item));
     setIsModalVisible(true);
   };
 

@@ -51,8 +51,8 @@ function Header() {
       path: "/",
     },
     {
-      display: "Categories",
-      path: "/categories",
+      display: "Products",
+      path: "/products",
     },
     {
       display: "Purchase History",
