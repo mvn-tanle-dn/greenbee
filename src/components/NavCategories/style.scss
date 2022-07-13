@@ -81,6 +81,33 @@
     }
   }
 
+  .discover-products-wrapper {
+    margin-top: 50px;
+    .discover-products {
+      display: flex;
+      flex-wrap: wrap;
+      margin-left: -20px;
+      .discover-product {
+        display: flex;
+        align-items: center;
+        margin-left: 20px;
+        width: calc(100% / 3 - 20px) !important;
+        border: 1px solid black;
+        padding: 20px;
+        .product-content {
+          .product-content-action {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            svg {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+
   &-content {
     position: relative;
   }

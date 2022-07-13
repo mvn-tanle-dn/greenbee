@@ -13,16 +13,7 @@ import {
   AiOutlineUser,
   AiOutlineCalendar,
 } from "react-icons/ai";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHeart,
-  faCartArrowDown,
-  faMagnifyingGlass,
-} from "@fortawesome/free-solid-svg-icons";
 
-// Components
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Layouts/Footer";
 import NavCategories from "../../components/NavCategories";
 import SectionTitle from "../../components/SectionTitle";
 // import Products from "../../components/Modules/products/Products";
@@ -52,10 +43,11 @@ import imgGallery from "../../assets/images/home/img-gellary.webp";
 import "./style.scss";
 import Product from "../../components/Product";
 
+import { getProducts } from "../../api/product";
+
 function Home() {
   const dispatch = useDispatch();
-
-  const product = useSelector((state) => state.product);
+  // const product = useSelector((state) => state.product);
 
   const getProfile = useCallback(
     () => dispatch.profile.getProfile(),
@@ -66,15 +58,6 @@ function Home() {
     () => dispatch.category.getCategories(),
     [dispatch]
   );
-
-  const getProducts = useCallback(
-    () => dispatch.product.getProducts(),
-    [dispatch]
-  );
-
-  useLayoutEffect(() => {
-    getProducts();
-  }, [getProducts]);
 
   useLayoutEffect(() => {
     getProfile();
@@ -300,14 +283,6 @@ function Home() {
 "
         />
         <NavCategories />
-        <div className="container">
-          <div className="discover-products-wrapper">
-            <ul className="discover-products">
-              {product &&
-                product.map((_product) => <Product product={_product} />)}
-            </ul>
-          </div>
-        </div>
       </section>
 
       {/* <Products products={product} /> */}

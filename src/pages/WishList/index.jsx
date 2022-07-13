@@ -11,29 +11,30 @@ export default function WishList() {
   const product = useSelector((state) => state.product);
 
   const filterProductByWishlist = (products, wishlistProducts) => {
-    return products.filter((product) => {
-      return wishlistProducts.some((wishlistProduct) => {
-        return wishlistProduct.id === product.id;
+    return products?.filter((product) => {
+      return wishlistProducts?.some((wishlistProduct) => {
+        return wishlistProduct.product_id === product.id;
       });
     });
   };
 
   const removeWishlistProduct = (productId) => {
     addWishList(productId).then((res) => {
-      console.log(productId);
-      console.log(res);
+      if (res.data.success) {
+        setWishlistProducts(
+          wishlistProducts.filter((product) => product.product_id !== productId)
+        );
+      }
     });
   };
 
   useEffect(() => {
     getWishList().then((res) => {
-      setWishlistProducts(filterProductByWishlist(product, res.data.data));
+      if (res.data.success) {
+        setWishlistProducts(res.data.data);
+      }
     });
-  }, [product]);
-
-  useEffect(() => {
-    console.log(wishlistProducts);
-  }, [wishlistProducts]);
+  }, []);
 
   return (
     <div className="page-wishlist">
@@ -54,7 +55,7 @@ export default function WishList() {
                         src={`${process.env.REACT_APP_URL}${product.image1}`}
                         alt={`wishlist-product-${product.product_name}`}
                       />
-                      <span>{product.product_name}</span>
+                      <span>{product.product_id}</span>
                     </div>
                     <span className="wishlist-product-price">
                       {product.sell_price}
@@ -62,7 +63,9 @@ export default function WishList() {
                     <div className="wishlist-product-action">
                       <button
                         className="btn"
-                        onClick={() => removeWishlistProduct(product.id)}
+                        onClick={() => {
+                          removeWishlistProduct(product.product_id);
+                        }}
                       >
                         Remove
                       </button>

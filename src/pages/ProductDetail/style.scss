@@ -1,0 +1,12 @@
+.page-product-detail {
+  margin-top: 50px;
+
+  .product-detail-img {
+    height: 100%;
+    img {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+    }
+  }
+}

@@ -8,7 +8,6 @@ import "./assets/scss/styles.scss";
 // Pages
 import Home from "./pages/Home/Home";
 import Categories from "./pages/Categories";
-import ProductDetail from "./pages/ProductDetail";
 import Contact from "./pages/Contact";
 import Blog from "./pages/Blog/Blog";
 import About from "./pages/About";
@@ -21,6 +20,8 @@ import WishList from "./pages/WishList";
 import Footer from "./components/Layouts/Footer";
 import Header from "./components/Header/Header";
 import { useDispatch, useSelector } from "react-redux";
+import Payment from "./pages/Payment";
+import ProductDetail from "./pages/ProductDetail";
 
 function App() {
   const navigate = useNavigate();
@@ -53,14 +54,16 @@ function App() {
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route path="/categories" element={<Categories />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/purchase-history" element={<Cart />} />
             <Route path="/wishlist" element={<WishList />} />
             <Route path="/user-info" element={<UserInfo />} />
+            <Route path="/payment" element={<Payment />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </div>

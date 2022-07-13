@@ -27,8 +27,12 @@ import { IoClose } from "react-icons/io5";
 // Styles
 import "./style.scss";
 import { message } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 
 function Header() {
+  const dispatch = useDispatch();
+  const { quantity } = useSelector((state) => state.cart);
+
   const mainNav = [
     {
       display: "Home",
@@ -116,8 +120,9 @@ function Header() {
   const handleLogout = () => {
     logout().then((res) => {
       if (res) {
-        message.success(res.data.message);
+        localStorage.removeItem("persist:root");
         localStorage.removeItem("access_token");
+        message.success(res.data.message);
         navigate("/login");
       }
     });
@@ -218,7 +223,19 @@ function Header() {
               </ul>
               <ul className="header-top-socials col-4">
                 <li className="material-icon">
-                  <FontAwesomeIcon icon={faShoppingCart} />
+                  <FontAwesomeIcon
+                    icon={faShoppingCart}
+                    onClick={() => {
+                      navigate("/cart");
+                      return null;
+                    }}
+                  />
+
+                  {quantity > 0 && (
+                    <span className="header-top-socials-quantity">
+                      {quantity}
+                    </span>
+                  )}
                 </li>
                 <li className="material-icon">
                   <FontAwesomeIcon

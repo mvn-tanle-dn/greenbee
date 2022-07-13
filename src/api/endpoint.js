@@ -13,4 +13,6 @@ export const END_POINT = {
   PRODUCTS: "public/products",
   CATEGORIES: "public/categories",
   WISHLIST: "wishlist",
+  ORDERS: "orders",
+  ORDERSVNPAY: "vnpay_payment",
 };

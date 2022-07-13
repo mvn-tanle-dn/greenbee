@@ -12,15 +12,13 @@ import {
 
 // Style
 import "./style.scss";
-import { useSelector } from "react-redux";
-import { addWishList, getWishList } from "../../api/user";
+import { useDispatch } from "react-redux";
+import { addWishList } from "../../api/user";
 
 export default function Product({ product }) {
+  const dispatch = useDispatch();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentProduct, setCurrentProduct] = useState({});
-
-  const { quantity, products } = useSelector((state) => state.cart);
-  const category = useSelector((state) => state.category);
 
   const handleOk = () => {
     setIsModalVisible(false);
@@ -35,7 +33,7 @@ export default function Product({ product }) {
       description: (
         <p className="noti-product-message">
           <span className="noti-product-name">{product.product_name}</span> has
-          been added to your wishlist`
+          been added to your wishlist
         </p>
       ),
       placement: "bottomRight",
@@ -46,34 +44,32 @@ export default function Product({ product }) {
 
   const handleAddWishList = (product) => {
     addWishList(product.id).then((res) => {
-      console.log(product.id);
       if (res.status === 200) {
         openNotification(product);
       }
     });
-    getWishList().then((res) => {
-      console.log(res);
-    });
   };
 
   const viewProduct = (product) => {
-    console.log(product);
     setCurrentProduct(product);
     setIsModalVisible(true);
   };
 
-  const addToCart = (productId) => {
-    // console.log(quantity, products);
+  const addToCart = (product) => {
+    dispatch.cart.increment();
+    dispatch.cart.addToCart(product);
   };
 
   return (
     <>
       <li className="product">
         <div className="product-img">
-          <img
-            src={`${process.env.REACT_APP_URL}${product.image1}`}
-            alt="product-img"
-          />
+          <a href={`/products/${product.id}`}>
+            <img
+              src={`${process.env.REACT_APP_URL}${product.image1}`}
+              alt="product-img"
+            />
+          </a>
         </div>
         <div className="product-content">
           <h5 className="product-content-name">{product.product_name}</h5>
@@ -82,7 +78,7 @@ export default function Product({ product }) {
             <FontAwesomeIcon
               icon={faCartArrowDown}
               onClick={() => {
-                addToCart(product.id);
+                addToCart(product);
               }}
             />
             <FontAwesomeIcon
@@ -130,26 +126,6 @@ export default function Product({ product }) {
             </Row>
             <Row>
               <p>{currentProduct.description}</p>
-            </Row>
-            <Row>
-              <Col span={4}>Quantity:</Col>
-              <Col span={5}>
-                <InputNumber min={0} defaultValue={1} />
-              </Col>
-            </Row>
-            <Row>
-              <Col span={12}>
-                <span></span>
-                <p>
-                  <FontAwesomeIcon icon={faHeart} />
-                  Add To Wishlist
-                </p>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <button className="btn btn-primary">Add To Cart</button>
-              </Col>
             </Row>
           </div>
         </div>

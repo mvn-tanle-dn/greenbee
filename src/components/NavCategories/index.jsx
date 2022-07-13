@@ -8,6 +8,9 @@ import React, {
 import { useDispatch, useSelector } from "react-redux";
 
 import prodIcon1 from "../../assets/images/home/prodIcon1.png";
+import Product from "../Product";
+
+import { getProducts, getProductsByCategory } from "../../api/product";
 
 // Style
 import "./style.scss";
@@ -20,6 +23,9 @@ const allProductCategory = {
 
 export default function NavCategories() {
   const dispatch = useDispatch();
+  const [products, setProducts] = useState([]);
+
+  const [activeId, setActiveId] = useState("all-products");
 
   const category = useSelector((state) => state.category);
 
@@ -27,6 +33,19 @@ export default function NavCategories() {
     () => dispatch.category.getCategories(),
     [dispatch]
   );
+
+  const getProductByCategory = (categoryId) => {
+    getProductsByCategory(categoryId).then((res) => {
+      setActiveId(categoryId);
+      setProducts(res.data.data);
+    });
+  };
+
+  useEffect(() => {
+    getProducts().then((res) => {
+      setProducts(res.data.data);
+    });
+  }, []);
 
   useLayoutEffect(() => {
     if (!category) {
@@ -38,7 +57,17 @@ export default function NavCategories() {
       <div className="container">
         <nav className="block-nav">
           <ul className="block-nav-menu">
-            <li className="block-nav-item ml-30">
+            <li
+              className={`block-nav-item ml-30 ${
+                activeId === "all-products" ? "active" : ""
+              }`}
+              onClick={() => {
+                getProducts().then((res) => {
+                  setProducts(res.data.data);
+                  setActiveId("all-products");
+                });
+              }}
+            >
               <img
                 src={allProductCategory.icon}
                 alt={allProductCategory.category_name}
@@ -49,7 +78,10 @@ export default function NavCategories() {
               return (
                 <li
                   key={`products-title-${index}`}
-                  className={`block-nav-item ml-30`}
+                  className={`block-nav-item ml-30 ${
+                    item.id === activeId ? "active" : ""
+                  }`}
+                  onClick={() => getProductByCategory(item.id)}
                 >
                   <img src={item.icon} alt={item.category_name} />
                   <span className="mt-15">{item.category_name}</span>
@@ -58,6 +90,14 @@ export default function NavCategories() {
             })}
           </ul>
         </nav>
+
+        <div className="discover-products-wrapper">
+          <ul className="discover-products">
+            {products &&
+              products.map((_product) => <Product product={_product} />)}
+            {products.length === 0 && "Emty Product"}
+          </ul>
+        </div>
       </div>
     </section>
   );
