@@ -12,7 +12,13 @@ function Blog() {
     });
   }, []);
 
-  return <div>Blog</div>;
+  return (
+    <div className="page-blog">
+      <div className="container">
+        <p>Blog</p>
+      </div>
+    </div>
+  );
 }
 
 export default Blog;

@@ -9,4 +9,14 @@
       object-fit: cover;
     }
   }
+
+  .comments {
+    width: 100%;
+    .comment {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 100px;
+    }
+  }
 }

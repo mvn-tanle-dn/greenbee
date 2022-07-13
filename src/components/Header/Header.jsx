@@ -273,10 +273,7 @@ function Header() {
                   <span className="ml-30">Categories</span>
                 </div>
               </div>
-              <ul
-                className="header-bottom-menu active col-3"
-                ref={categoriList}
-              >
+              <ul className="header-bottom-menu col-3" ref={categoriList}>
                 {megamenu.map((item, index) => {
                   return (
                     <li
