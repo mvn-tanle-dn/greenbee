@@ -125,7 +125,7 @@ export default function Product({ product }) {
               <Col span={5}>{currentProduct?.category?.category_name}</Col>
             </Row>
             <Row>
-              <p>{currentProduct.description}</p>
+              <p className="modal-product-desc">{currentProduct.description}</p>
             </Row>
           </div>
         </div>

@@ -95,7 +95,9 @@ export default function NavCategories() {
           <ul className="discover-products">
             {products &&
               products.map((_product) => <Product product={_product} />)}
-            {products.length === 0 && "Emty Product"}
+            {products.length === 0 && (
+              <li className="emty-product">Emty Product</li>
+            )}
           </ul>
         </div>
       </div>
