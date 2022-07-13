@@ -1,3 +1,6 @@
+@import "../../assets/scss/base/variables";
+@import "../../assets/scss/base/mixins";
+
 .product {
   margin-bottom: 20px;
   display: flex;
@@ -39,6 +42,12 @@
         }
       }
     }
+  }
+}
+
+@include respond-below(medium) {
+  .product {
+    width: 100% !important;
   }
 }
 

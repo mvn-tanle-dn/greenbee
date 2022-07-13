@@ -94,9 +94,13 @@ export default function NavCategories() {
         <div className="discover-products-wrapper">
           <ul className="discover-products">
             {products &&
-              products.map((_product) => <Product product={_product} />)}
+              products.map((_product) => (
+                <Product key={_product.id} product={_product} />
+              ))}
             {products.length === 0 && (
-              <li className="emty-product">Emty Product</li>
+              <li className="emty-product" key="emty-product">
+                Emty Product
+              </li>
             )}
           </ul>
         </div>

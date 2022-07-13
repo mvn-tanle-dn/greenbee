@@ -171,7 +171,7 @@ function Header() {
 
                 {category.map((item, index) => {
                   return (
-                    <Link to={`/categories/${item.id}`}>
+                    <Link to={`/categories/${item.id}`} key={item.id}>
                       <li
                         className="menuLeft-menu-item"
                         key={`menuLeft-menu-${index}`}
@@ -275,7 +275,7 @@ function Header() {
               <ul className="header-bottom-menu col-3" ref={categoriList}>
                 {category.map((item, index) => {
                   return (
-                    <Link to={`/categories/${item.id}`}>
+                    <Link to={`/categories/${item.id}`} key={item.id}>
                       <li
                         className="header-bottom-menu-item"
                         key={`mega-menu-${index}`}

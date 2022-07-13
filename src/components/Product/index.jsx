@@ -62,7 +62,7 @@ export default function Product({ product }) {
 
   return (
     <>
-      <li className="product">
+      <li className="product" key={product.id}>
         <div className="product-img">
           <a href={`/products/${product.id}`}>
             <img
