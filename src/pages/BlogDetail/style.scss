@@ -1,0 +1,36 @@
+.page-blog-detail {
+  margin-top: 50px;
+  .blog {
+    .blog-content {
+      display: flex;
+      justify-content: space-between;
+      .blog-img {
+        max-height: 400px;
+        width: 40%;
+      }
+      div {
+        width: 58%;
+      }
+    }
+  }
+  .blogs {
+    .ant-list-item-meta {
+      padding-top: 20px;
+      padding-bottom: 20px;
+      .ant-list-item-meta-avatar {
+        overflow: hidden;
+        width: 30%;
+        height: 250px;
+        object-fit: cover;
+        transition: all 0.5s ease;
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+      .blog-title {
+        font-size: 22px;
+        font-weight: bold;
+      }
+    }
+  }
+}

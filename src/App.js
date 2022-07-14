@@ -7,7 +7,7 @@ import "./assets/scss/styles.scss";
 
 // Pages
 import Home from "./pages/Home/Home";
-import Categories from "./pages/Categories";
+
 import Contact from "./pages/Contact";
 import Blog from "./pages/Blog/Blog";
 import About from "./pages/About";
@@ -24,23 +24,33 @@ import Payment from "./pages/Payment";
 import ProductDetail from "./pages/ProductDetail";
 import PurchaseHistory from "./pages/PurchaseHistory";
 import CategoryDetail from "./pages/CategoryDetail";
+import BlogDetail from "./pages/BlogDetail";
 
 function App() {
   const navigate = useNavigate();
   const access_token = localStorage.getItem(KEY_LOCAL_STORAGE.ACCESS_TOKEN);
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
+  const blog = useSelector((state) => state.blog);
 
   const getProducts = useCallback(
     () => dispatch.product.getProducts(),
     [dispatch]
   );
 
+  const getBlogs = useCallback(() => dispatch.blog.getBlogs(), [dispatch]);
+
   useEffect(() => {
-    if (!product) {
+    if (product && product.length === 0) {
       getProducts();
     }
   }, [getProducts, product]);
+
+  useEffect(() => {
+    if (blog && blog.length === 0) {
+      getBlogs();
+    }
+  }, [getBlogs, blog]);
 
   useEffect(() => {
     if (!access_token) {
@@ -59,7 +69,8 @@ function App() {
             <Route path="/categories/:id" element={<CategoryDetail />} />
             <Route path="/products/:id" element={<ProductDetail />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/blog" element={<Blog />} />
+            <Route path="/blogs" element={<BlogDetail />} />
+            <Route path="/blogs/:id" element={<BlogDetail />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/cart" element={<Cart />} />

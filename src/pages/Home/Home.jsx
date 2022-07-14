@@ -1,6 +1,6 @@
-import React, { useCallback, useLayoutEffect } from "react";
+import React, { useCallback, useEffect, useLayoutEffect } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Slider from "react-slick";
 import {
@@ -36,13 +36,11 @@ import imgGallery from "../../assets/images/home/img-gellary.webp";
 
 // Style
 import "./style.scss";
-import Product from "../../components/Product";
-
-import { getProducts } from "../../api/product";
 
 function Home() {
   const dispatch = useDispatch();
-  // const product = useSelector((state) => state.product);
+
+  const blog = useSelector((state) => state.blog);
 
   const getProfile = useCallback(
     () => dispatch.profile.getProfile(),
@@ -53,6 +51,10 @@ function Home() {
     () => dispatch.category.getCategories(),
     [dispatch]
   );
+
+  useEffect(() => {
+    console.log(blog);
+  }, [blog]);
 
   useLayoutEffect(() => {
     getProfile();
@@ -72,35 +74,8 @@ function Home() {
     autoplay: false,
   };
 
-  const settingDealBox = {
-    dots: true,
-    arrows: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    initialSlide: 2,
-  };
-
-  const settingCollection = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    initialSlide: 2,
-  };
-
-  const flashDealTitle = {
-    title: "Flash Deal",
-    subTitle:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium.",
-  };
-
   return (
     <div className="page-home">
-      {/* <Header /> */}
-
       <section className="section-slide-show mt-30">
         <div className="container">
           <ul className="section-slide-show-list">
@@ -280,8 +255,6 @@ function Home() {
         <NavCategories />
       </section>
 
-      {/* <Products products={product} /> */}
-
       {/* <div className="distance">
         <section className="section-flash-deal section-padding">
           <div className="container">
@@ -361,39 +334,43 @@ function Home() {
       <section className="section-latest-post section-padding">
         <div className="container">
           <ul className="latest-post-list">
-            {latestPost.map((item, index) => {
+            {blog.map((item, index) => {
               return (
-                <li
-                  className="latest-post-item col-4 mr-30"
-                  key={`latest-post-${index}`}
-                >
-                  <a className="latest-post-img" href="/">
-                    <img src={item.img} alt={item.title} />
-                  </a>
-                  <div className="latest-post-content">
-                    <h3 className="block-title mb-10">{item.title}</h3>
-                    <ul className="latest-post-acticle mb-10">
-                      <li className="acticle-item mr-25">
-                        <span className="acticle-icon">
-                          <AiOutlineComment />
-                        </span>
-                        <span>{item.coment} comments</span>
-                      </li>
-                      <li className="acticle-item mr-25">
-                        <span className="acticle-icon">
-                          <AiOutlineUser />
-                        </span>
-                        <span>By {item.author}</span>
-                      </li>
-                      <li className="acticle-item">
-                        <span className="acticle-icon">
-                          <AiOutlineCalendar />
-                        </span>
-                        <span>{item.day}</span>
-                      </li>
-                    </ul>
-                    <p className="latest-post-desc">{item.description}</p>
-                  </div>
+                <li className="latest-post-item" key={`latest-post-${index}`}>
+                  <Link to={`/blogs/${item.id}`} key={item.id}>
+                    <a className="latest-post-img" href="/">
+                      <img
+                        src={`${process.env.REACT_APP_URL}${item.image}`}
+                        alt={item.title}
+                      />
+                    </a>
+                    <div className="latest-post-content">
+                      <h3 className="block-title mb-10">{item.title}</h3>
+                      <ul className="latest-post-acticle mb-10">
+                        <li className="acticle-item mr-25">
+                          <span className="acticle-icon">
+                            <AiOutlineComment />
+                          </span>
+                          <span>{item.coment} comments</span>
+                        </li>
+                        <li className="acticle-item mr-25">
+                          <span className="acticle-icon">
+                            <AiOutlineUser />
+                          </span>
+                          <span>By {item.author}</span>
+                        </li>
+                        <li className="acticle-item">
+                          <span className="acticle-icon">
+                            <AiOutlineCalendar />
+                          </span>
+                          <span>{item.day}</span>
+                        </li>
+                      </ul>
+                      <p className="latest-post-desc">
+                        {item.short_description}
+                      </p>
+                    </div>
+                  </Link>
                 </li>
               );
             })}
@@ -417,8 +394,6 @@ function Home() {
           </ul>
         </div>
       </section>
-
-      {/* <Footer /> */}
     </div>
   );
 }

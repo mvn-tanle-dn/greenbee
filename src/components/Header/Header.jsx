@@ -59,36 +59,8 @@ function Header() {
       path: "/purchase-history",
     },
     {
-      display: "Blog",
-      path: "/blog",
-    },
-  ];
-
-  const megamenu = [
-    {
-      icon: iconNav1,
-      title: "Fresh Fruits",
-      subTitle: "Apple, Orange, Watermelon, Banana Pineapple, Grapes...",
-    },
-    {
-      icon: iconNav2,
-      title: "Vegetables",
-      subTitle: "Cabbage, Onion, Kale, Parsley Garlic, Asparagus...",
-    },
-    {
-      icon: iconNav3,
-      title: "Tea & Coffee",
-      subTitle: "Leamon tea, Peach tea, Milk tea  Weight loss tea, Coffee ...",
-    },
-    {
-      icon: iconNav4,
-      title: "Fresh Juices",
-      subTitle: "Apple, Orange, Watermelon, Banana Pineapple, Grapes...",
-    },
-    {
-      icon: iconNav5,
-      title: "Fesh Meats",
-      subTitle: "Pork, Beef, Lamb chops, Salmon Chicken, Sausage...",
+      display: "Blogs",
+      path: "/blogs",
     },
   ];
 
